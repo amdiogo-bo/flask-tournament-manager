@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Résultat du Match</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title text-center mb-4">
+            {{ match.joueur1.pseudo }} vs {{ match.joueur2.pseudo }}
+        </h4>
+        <p class="text-center text-muted mb-4">
+            Tournoi: {{ match.tournoi.nom }}<br>
+            Date: {{ match.date_match.strftime('%d/%m/%Y %H:%M') }}
+        </p>
+        
+        <form method="POST" action="{{ url_for('main.result_match', id=match.id) }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="row mb-4">
+                <div class="col-md-5 text-end">
+                    <h3>{{ match.joueur1.pseudo }}</h3>
+                </div>
+                <div class="col-md-2 text-center">
+                    {{ form.score_joueur1(class="form-control text-center") }}
+                </div>
+                <div class="col-md-2 text-center">
+                    {{ form.score_joueur2(class="form-control text-center") }}
+                </div>
+                <div class="col-md-3">
+                    <h3>{{ match.joueur2.pseudo }}</h3>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Enregistrer Résultat</button>
+                <a href="{{ url_for('main.list_matchs') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

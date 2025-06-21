@@ -1,0 +1,69 @@
+/* Style de base */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Nouveau */
+    padding-bottom: 0; /* Supprimé (remplacé par le flex) */
+}
+
+/* Navbar */
+.navbar {
+    margin-bottom: 20px;
+}
+
+/* Cartes */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 20px;
+}
+
+/* Boutons */
+.btn-action {
+    margin-right: 5px;
+}
+
+/* Tableaux */
+.table-responsive {
+    margin-bottom: 20px;
+}
+
+/* Formulaire */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+
+/* Garantit que le footer reste en bas */
+html, body {
+    height: 100%;
+}
+
+/* Style supplémentaire pour les pages courtes */
+.min-content-height {
+    min-height: calc(100vh - 200px); /* Ajustez 200px selon votre header/footer */
+}
+
+* Footer */
+.footer {
+    margin-top: auto;
+    background-color: #343a40;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Ajustement pour le contenu principal */
+.container.main-content {
+    flex: 1;
+    padding-bottom: 60px; /* Espace pour le footer fixed */
+}

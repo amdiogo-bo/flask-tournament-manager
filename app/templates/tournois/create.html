@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Créer un Tournoi</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('main.create_tournoi') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                {{ form.nom.label(class="form-label") }}
+                {{ form.nom(class="form-control") }}
+                {% for error in form.nom.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.jeu.label(class="form-label") }}
+                {{ form.jeu(class="form-control") }}
+                {% for error in form.jeu.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.date_debut.label(class="form-label") }}
+                    {{ form.date_debut(class="form-control") }}
+                    {% for error in form.date_debut.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6">
+                    {{ form.date_fin.label(class="form-label") }}
+                    {{ form.date_fin(class="form-control") }}
+                    {% for error in form.date_fin.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                {{ form.description.label(class="form-label") }}
+                {{ form.description(class="form-control", rows=4) }}
+                {% for error in form.description.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Créer</button>
+            <a href="{{ url_for('main.list_tournois') }}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Modifier Joueur</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('main.edit_joueur', id=joueur.id) }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                {{ form.pseudo.label(class="form-label") }}
+                {{ form.pseudo(class="form-control") }}
+                {% for error in form.pseudo.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.nom_complet.label(class="form-label") }}
+                {{ form.nom_complet(class="form-control") }}
+                {% for error in form.nom_complet.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{{ url_for('main.list_joueurs') }}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Liste des Joueurs</h1>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <a href="{{ url_for('main.create_joueur') }}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Nouveau Joueur
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom Complet</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for joueur in joueurs %}
+            <tr>
+                <td>{{ joueur.pseudo }}</td>
+                <td>{{ joueur.nom_complet if joueur.nom_complet else '-' }}</td>
+                <td>{{ joueur.email if joueur.email else '-' }}</td>
+                <td>
+                    <a href="{{ url_for('main.edit_joueur', id=joueur.id) }}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil">Éditer</i>
+                    </a>
+                    <form method="POST" action="{{ url_for('main.delete_joueur', id=joueur.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer ce joueur ?')">
+                            <i class="bi bi-trash">Supprimer</i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center">Aucun joueur enregistré</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Ajouter un Prix pour {% if tournoi %}{{ tournoi.nom }}{% else %}le tournoi{% endif %}</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('main.create_prix', tournoi_id=tournoi.id) }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                {{ form.position.label(class="form-label") }}
+                {{ form.position(class="form-control") }}
+                {% for error in form.position.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.montant.label(class="form-label") }}
+                <div class="input-group">
+                    {{ form.montant(class="form-control") }}
+                    <span class="input-group-text">€</span>
+                </div>
+                {% for error in form.montant.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.description.label(class="form-label") }}
+                {{ form.description(class="form-control", rows=3) }}
+                {% for error in form.description.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+            <a href="{{ url_for('main.list_prix', tournoi_id=tournoi.id) }}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

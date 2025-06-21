@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Prix pour {{ tournoi.nom }}</h1>
+    <a href="{{ url_for('main.create_prix', tournoi_id=tournoi.id) }}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Ajouter Prix
+    </a>
+</div>
+
+{% if tournoi.prix %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Montant</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prix in tournoi.prix|sort(attribute='position') %}
+            <tr>
+                <td>{{ prix.position }}ère</td>
+                <td>{{ prix.montant }} €</td>
+                <td>{{ prix.description if prix.description else '-' }}</td>
+                <td>
+                    <a href="{{ url_for('main.edit_prix', prix_id=prix.id) }}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i> Modifier
+                    </a>
+                    <form method="POST" action="{{ url_for('main.delete_prix', prix_id=prix.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer ce prix ?')">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">
+    Aucun prix défini pour ce tournoi
+</div>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{{ url_for('main.detail_tournoi', id=tournoi.id) }}" class="btn btn-secondary">
+        Retour au tournoi
+    </a>
+</div>
+{% endblock %}

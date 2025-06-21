@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Résultats de recherche pour "{{ query }}"</h2>
+    
+    <!-- Barre de recherche -->
+    <form class="mb-4" action="{{ url_for('main.search') }}" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Rechercher tournois/joueurs...">
+            <button class="btn btn-primary" type="submit">Rechercher</button>
+        </div>
+    </form>
+
+    <!-- Résultats Tournois -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Tournois ({{ tournois|length }})</h3>
+        </div>
+        <div class="card-body">
+            {% if tournois %}
+            <div class="list-group">
+                {% for tournoi in tournois %}
+                <a href="{{ url_for('main.detail_tournoi', id=tournoi.id) }}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ tournoi.nom }}</h5>
+                        <small>{{ tournoi.date_debut.strftime('%d/%m/%Y') }}</small>
+                    </div>
+                    <p class="mb-1">{{ tournoi.jeu }}</p>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">Aucun tournoi trouvé</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Résultats Joueurs -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Joueurs ({{ joueurs|length }})</h3>
+        </div>
+        <div class="card-body">
+            {% if joueurs %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Nom Complet</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for joueur in joueurs %}
+                    <tr>
+                        <td>{{ joueur.pseudo }}</td>
+                        <td>{{ joueur.nom_complet if joueur.nom_complet else '-' }}</td>
+                        <td>
+                            <a href="{{ url_for('main.edit_joueur', id=joueur.id) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-muted">Aucun joueur trouvé</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

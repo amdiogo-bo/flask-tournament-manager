@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Bienvenue sur la plateforme de gestion de tournois</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Prochains tournois</h2>
+        <div class="list-group">
+            {% for tournoi in tournois %}
+            <a href="{{ url_for('main.detail_tournoi', id=tournoi.id) }}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ tournoi.nom }}</h5>
+                    <small>{{ tournoi.date_debut.strftime('%d/%m/%Y') }}</small>
+                </div>
+                <p class="mb-1">{{ tournoi.jeu }}</p>
+                <small>{{ tournoi.description }}</small>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Statistiques</h5>
+                <p class="card-text">
+                    {% if current_user.is_authenticated %}
+                        Bienvenue {{ current_user.username }}!<br>
+                        Vous avez organisé {{ current_user.tournois|length }} tournoi(s).
+                    {% else %}
+                        Connectez-vous pour gérer vos tournois.
+                    {% endif %}
+                </p>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.create_tournoi') }}" class="btn btn-primary">Créer un tournoi</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Se connecter</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

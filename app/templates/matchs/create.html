@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Programmer un Match</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('main.create_match') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                {{ form.tournoi.label(class="form-label") }}
+                {{ form.tournoi(class="form-select") }}
+                {% for error in form.tournoi.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.joueur1.label(class="form-label") }}
+                    {{ form.joueur1(class="form-select") }}
+                    {% for error in form.joueur1.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6">
+                    {{ form.joueur2.label(class="form-label") }}
+                    {{ form.joueur2(class="form-select") }}
+                    {% for error in form.joueur2.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                {{ form.date_match.label(class="form-label") }}
+                {{ form.date_match(class="form-control") }}
+                {% for error in form.date_match.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Programmer</button>
+            <a href="{{ url_for('main.list_matchs') }}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

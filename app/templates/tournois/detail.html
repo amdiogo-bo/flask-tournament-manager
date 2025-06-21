@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>{{ tournoi.nom }}</h1>
+        <h3 class="text-muted">{{ tournoi.jeu }}</h3>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Détails</h5>
+                <p class="card-text">{{ tournoi.description }}</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Date de début:</strong> {{ tournoi.date_debut.strftime('%d/%m/%Y %H:%M') }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Date de fin:</strong> {{ tournoi.date_fin.strftime('%d/%m/%Y %H:%M') }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Organisateur:</strong> {{ tournoi.organisateur.username }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between mb-3">
+            <h3>Matchs</h3>
+            <a href="{{ url_for('main.create_match') }}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Ajouter Match
+            </a>
+        </div>
+        
+        {% if tournoi.matchs %}
+        <div class="list-group">
+            {% for match in tournoi.matchs %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>{{ match.joueur1.pseudo }}</strong> vs <strong>{{ match.joueur2.pseudo }}</strong>
+                    </div>
+                    <div>
+                        <span class="badge bg-secondary">{{ match.date_match.strftime('%d/%m %H:%M') }}</span>
+                    </div>
+                </div>
+                {% if match.termine %}
+                <div class="mt-2">
+                    Score: {{ match.score_joueur1 }} - {{ match.score_joueur2 }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">Aucun match programmé pour ce tournoi</div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Prix</h5>
+            </div>
+            <div class="card-body">
+                {% if tournoi.prix %}
+                <ul class="list-group">
+                    {% for prix in tournoi.prix|sort(attribute='position') %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ prix.position }}ère place
+                        <span class="badge bg-primary rounded-pill">{{ prix.montant }} €</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted">Aucun prix défini pour ce tournoi</p>
+                {% endif %}
+                <div class="mt-3">
+                    <a href="{{ url_for('main.create_prix', tournoi_id=tournoi.id) }}" class="btn btn-sm btn-primary">
+                        Ajouter Prix
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('main.edit_tournoi', id=tournoi.id) }}" class="btn btn-warning">
+                        Modifier Tournoi
+                    </a>
+                    <form method="POST" action="{{ url_for('main.delete_tournoi', id=tournoi.id) }}">
+                        <button type="submit" class="btn btn-danger w-100" onclick="return confirm('Supprimer ce tournoi ?')">
+                            Supprimer Tournoi
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
